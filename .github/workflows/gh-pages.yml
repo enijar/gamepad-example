@@ -1,4 +1,4 @@
-name: Deploy
+name: GH Pages
 
 on:
   push:
@@ -10,17 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
+        with:
+          persist-credentials: false
 
       - name: Install and Build 🔧
-        env:
-          PUBLIC_PATH: ./
         run: |
-          npm install
-          npm run build
-
+          npm ci
+          PUBLIC_PATH=./ npm run build
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@4.1.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
